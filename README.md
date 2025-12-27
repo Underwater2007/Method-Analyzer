@@ -1,0 +1,3 @@
+Method Analyzer is a lightweight static analysis tool written in Java that scans Java source files and extracts method-level metrics using heuristic parsing. The analyzer detects valid method declarations, counts parameters, identifies getters and setters, and filters out control structures such as conditionals and loops.
+
+The project intentionally avoids full AST parsing and compiler-level analysis, focusing instead on practical source-code inspection techniques, defensive string parsing, and well-defined architectural layers (input, parsing, analysis). This approach emphasizes correctness, scope control, and clarity of design over language-specific complexity.
