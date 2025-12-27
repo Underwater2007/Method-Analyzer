@@ -1,0 +1,35 @@
+JAVA project-CO-OP
+----------Explicit Limitations (Write These Down)--------------
+-No AST
+-No reflection
+-No bytecode
+-No lambdas
+-No inner / anonymous classes
+-No annotations
+-One top-level class per file
+----------Metrics--------------
+-Total Classes=One class will be scaned per run.
+-Total methods=number of detected method declarations, regardless of parameters
+-Average parameters/method=number of detected input in open and closed parentheses () regarless of type
+-Average method length=number of non-empty, non-comment lines between the method’s opening { and matching }
+-longest method=maximum method length (in lines) across all detected methods
+-Maximum Nested Block Depth=The deepest level of nested {} blocks inside a method, excluding the method’s outer block. what counts is as follows: if, for, and while. what doesn't count: methods own {}. 
+Average comments/method=total comment-only lines inside methods ÷ number of methods
+---------Architecture----------
+<-----layers-------->
+1) Input Layer: 
+-What happens if the path doesnt exist?-To check if file path exist or not we can use a try catch which trys to detect the file path but if it doesnt find it in the system then it will throw a "file not found" error, in which the user will have to go back and change the file path.
+-What if there are no ".java" files?-In this case we can check by parsing the filename string for the last 4 characters "java" using a if condition or try catch.
+-How do errors get reported upward?-If file is not found it returns a file not found error to the terminal and exit cleanly
+2) Parsing Layer:
+-How to read java file line by line?-we can read all lines one by one using "Files.newBufferedReader()". to decect classes we can search line containing the word class followed by an identifier and on open brace { "public class ()". To detect methods we can look for patterns that include return type, name, parentheses for parameters and an open brace {.We must also check if the line starts with if/for/while/switch/cath since they also use () and {, we can also reject method count if it ends with ";" and we can directly accept it as method if return type exist before name and the name is followed by (. For brace tracing we can use a counter and increment it everytime a brace opens { and decrease it everytime it closes }, when the counter returns to zero for the class or method, that block is clear. To trace "//" comments we can just indentify it with single line conditions, and for "/*...*/" or "/**" we dectect starting blocks "/*" or "/**" and ending blocks "*/". After identifying this we can use "BufferWriter" to record the data. parameters can be indentified by checking how may "," are in the parentheses() if there are zero "," and no char in between the "()" then there are no parameters, if there are zero "," but there is a char delaration then theres one parameters, etc.....For nesting depth logic we check for if/for/while and then we mark the next { as starting a nested block and increase the depth counter and when u notice a } then decrease the depth counter and we must ignore the methos opening { and class {}
+3) Analysis layers: 
+-totalClasses=1
+-total methods=Number of parsed MethodInfo objects from layer 2
+-average parameters/method-totalParametersAcrossMethods / totalMethods
+-method length=executable lines between {} excluding comments
+-longest method=maximum executable lines between the number of methods. Also store method name and parameter count
+-maxNestedDepth=max nested depth across all methods
+-average comments/method-sumCommentOnlyLines / methodCount
+3) Reporting Layer:
+print all the variables from layer 3
